@@ -1,13 +1,18 @@
-import { useDispatch } from "react-redux"
-import { removeContact } from "../../redux/contacts/contactSlice"
+import { useRemoveContactMutation } from "../../redux/contacts/contactsApi"
 
 const ContactListItem = ({id, name, number}) => {
-  const dispatch = useDispatch()
+  const [removeContact, { isLoading }] = useRemoveContactMutation()
+  
   return (
     <li key={id}>
         <p>{name}</p>
         <p>{number}</p>
-        <button onClick={() => dispatch(removeContact(id))}>delete &times;</button>
+        <button 
+          onClick={() => removeContact(id)}
+          disabled={isLoading}
+        >
+          delete &times;
+        </button>
     </li>
   )
 }
