@@ -1,25 +1,29 @@
-import { Link } from "react-router-dom"
-import UserMenu from "../UserMenu"
 import { useSelector } from "react-redux"
+import { NavLink } from "react-router-dom"
+import { userToken } from "../../redux/auth/authSelectors"
+import AuthMenu from "../AuthMenu"
+import UserMenu from "../UserMenu/UserMenu"
 
 const AppBar = () => {
-  const isLoggedIn = useSelector(state => state.user.isLoggedIn)
+  const isUserLoggedIn = useSelector(userToken)
+
   return (
-    <header style={{
-      display: 'flex',
-      justifyContent: 'space-between',
-      padding: 8,
-      borderBottom: '1px solid black',
-      marginBottom: 12
-      }}
-    >
-      <nav>
-        <Link to="/" style={{marginRight: 20}}>Home</Link>
-        {!isLoggedIn && <Link to="/login" style={{marginRight: 20}}>Log in</Link>}
-        {isLoggedIn && <Link to='/phonebook'>Phone book</Link>}
+      <nav 
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          padding: 8,
+          borderBottom: '1px solid black',
+          marginBottom: 12
+        }}
+      >
+        <div>
+        <NavLink to='/'>Home</NavLink>
+        <NavLink to='/phonebook'>Phone book</NavLink>
+        </div>
+        
+        {isUserLoggedIn ? <UserMenu /> : <AuthMenu />}
       </nav>
-        {isLoggedIn && <UserMenu />}
-    </header>
   )
 }
 

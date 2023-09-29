@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { logIn } from '../../redux/auth/authOperations'
+import { register } from '../../redux/auth/authOperations'
 
-const LoginForm = () => {
+const RegisterForm = () => {
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     
@@ -12,6 +13,8 @@ const LoginForm = () => {
         const {value, name} = e.target;
         
         switch (name) {
+            case 'name':
+                return setName(value)
             case 'email':
                 return setEmail(value)
             case 'password':
@@ -23,20 +26,26 @@ const LoginForm = () => {
 
     const handleFormSubmit = e => {
         e.preventDefault()
-        dispatch(logIn({email, password}))
+        dispatch(register({name, email, password}))
+        console.log(name, email, password)
         resetForm()
     }
 
     const resetForm = () => {
+        setName('');
         setEmail('');
         setPassword('');
     }
 
-    const isDicebledBtn = email && password ? true : false
+    const isDicebledBtn = name && email && password ? true : false
 
     return (
         <div>
             <form onSubmit={handleFormSubmit}>
+                <label>
+                    Name
+                    <input type='text' name='name' value={name} onChange={handleInputChange}/>
+                </label>
                 <label>
                     Email
                     <input type='text' name='email' value={email} onChange={handleInputChange}/>
@@ -52,4 +61,4 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm
+export default RegisterForm
