@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { register } from '../../redux/auth/authOperations'
+import { logIn, register } from '../../redux/auth/authOperations'
+import toast from 'react-hot-toast'
 
 const RegisterForm = () => {
     const [name, setName] = useState('')
@@ -27,7 +28,11 @@ const RegisterForm = () => {
     const handleFormSubmit = e => {
         e.preventDefault()
         dispatch(register({name, email, password}))
-        console.log(name, email, password)
+            .then(() => {
+                dispatch(logIn({email, password}))
+                toast.success(`The user ${name} was successflly registered!`)
+            })
+            .catch(() => toast.error("user registration error, try again!"))
         resetForm()
     }
 

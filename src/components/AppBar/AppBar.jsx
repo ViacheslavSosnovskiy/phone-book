@@ -19,7 +19,7 @@ const AppBar = () => {
       >
         <div>
         <NavLink to='/'>Home</NavLink>
-        <NavLink to='/phonebook'>Phone book</NavLink>
+        {isUserLoggedIn && <NavLink to='/phonebook'>Phone book</NavLink>}
         </div>
         
         {isUserLoggedIn ? <UserMenu /> : <AuthMenu />}

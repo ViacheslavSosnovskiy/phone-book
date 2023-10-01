@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from "react-redux"
-import { userEmail, userName } from "../../redux/auth/authSelectors"
+import { useDispatch } from "react-redux"
 import { logOut } from "../../redux/auth/authOperations"
 import defaultAvatar from '../../img/user.webp'
+import { useAuth } from "../../hooks/useAuth"
 
 const styles = {
     userContainer: {
@@ -29,8 +29,8 @@ const styles = {
 
 const UserMenu = () => {
     const dispatch = useDispatch()
-    const name = useSelector(userName)
-    const email = useSelector(userEmail)
+    const {name, email} = useAuth()
+
     return (
         <div style={styles.userContainer}>
           <img src={defaultAvatar} alt='userAvatar' style={styles.userAvatar}/>
@@ -38,7 +38,6 @@ const UserMenu = () => {
               <b style={styles.userName}>{name}</b>
               <p style={styles.userEmail}>{email}</p>
             </div>
-            {/* <Button variant="outlined" type='button' onClick={() => dispatch(logOut())}>log out</Button> */}
             <button type='button' onClick={() => dispatch(logOut())}>log out</button>
         </div>
       )
