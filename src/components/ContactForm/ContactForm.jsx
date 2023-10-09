@@ -1,39 +1,38 @@
 import { useState } from 'react';
-import { useCreateContactMutation, useGetContactsQuery } from '../../redux/contacts/contactsApi'
+import { useDispatch } from 'react-redux';
+import { createContact } from '../../redux/contacts/contactsOperations';
 
 const ContactForm = () => {
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
-
-    const { data: contacts } = useGetContactsQuery()
-    const [createContact, {isLoading}] = useCreateContactMutation()
+    const dispatch = useDispatch()
 
     const handleChange = e => {
       const {name, value} = e.target;
 
       switch(name) {
         case 'name':
-          setName(value)
-          break;
-        case 'number':
-          setNumber(value)
-          break;
+          return setName(value)
 
+        case 'number':
+          return setNumber(value)
+      
         default:
-          break;
+          return;
+
       }
     }
 
     const handleSubmit = e => {
       e.preventDefault()
 
-      if(contacts?.find((contact) => contact.name.toLowerCase() === name.toLowerCase())) {
-        return alert(`Contact with name ${name} already exists!`)
-      }
-      if (contacts?.find((contact) => contact.number.replace(/\D/g, '') === number.replace(/\D/g, ''))) {
-        return alert(`Number ${number} is already in contacts!`,)
-      }
-      createContact({name, number})
+      // if(contacts?.find((contact) => contact.name.toLowerCase() === name.toLowerCase())) {
+      //   return alert(`Contact with name ${name} already exists!`)
+      // }
+      // if (contacts?.find((contact) => contact.number.replace(/\D/g, '') === number.replace(/\D/g, ''))) {
+      //   return alert(`Number ${number} is already in contacts!`,)
+      // }
+      dispatch(createContact({name, number}))
       resetContactForm()
     }
 
@@ -41,6 +40,8 @@ const ContactForm = () => {
       setName('')
       setNumber('')
     }
+
+    const isDicebledBtn = name && number ?  true : false;
 
   return (
     <>
@@ -71,7 +72,7 @@ const ContactForm = () => {
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             />
         </label>
-        <button type="submit" disabled={isLoading}>add contact</button>
+        <button type="submit" disabled={!isDicebledBtn}>add contact</button>
       </form>
     </>
   )

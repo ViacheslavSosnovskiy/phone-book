@@ -29,14 +29,14 @@ const styles = {
 
 const UserMenu = () => {
     const dispatch = useDispatch()
-    const {name, email} = useAuth()
+    const {user} = useAuth()
 
     return (
         <div style={styles.userContainer}>
           <img src={defaultAvatar} alt='userAvatar' style={styles.userAvatar}/>
             <div style={styles.userInfoWrapper}>
-              <b style={styles.userName}>{name}</b>
-              <p style={styles.userEmail}>{email}</p>
+              <b style={styles.userName}>{user.name}</b>
+              <p style={styles.userEmail}>{user.email}</p>
             </div>
             <button type='button' onClick={() => dispatch(logOut())}>log out</button>
         </div>
